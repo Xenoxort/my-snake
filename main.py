@@ -52,13 +52,20 @@ def left():
     if snake_list[0].heading() != 0:
         snake_list[0].setheading(180)
 
-#Initializing Score
+# Initializing Score
 my_score = Score(height)
+
+# Handling Best Score
+def best_score():
+    with open("best_score.txt", mode="r") as b_file:
+        best_score = b_file.read()
+
+    return int(best_score)
+
 
 
 # Snake Movement
 screen.listen()
-
 
 
 game_on = True
@@ -69,13 +76,14 @@ while game_on:
         snake_list[index].goto(snake_list[index - 1].pos())
     snake_list[0].forward(20)
 
+    # Eating food
     if abs(snake_list[0].xcor() - my_food.food_object.xcor()) < 15  and abs(snake_list[0].ycor() - my_food.food_object.ycor()) < 15:
-        #delete previous food, create new one
+        # Delete previous food, create new one
         my_food.food_object.clear()
         del my_food
         my_food = Food()
 
-        #one more tail
+        # Increase snake - one more tail
         tom = Turtle(shape="square")
         tom.color("white")
         tom.penup()
@@ -83,8 +91,18 @@ while game_on:
         tom.goto(snake_list[-1].pos())
         snake_list.append(tom)
 
-        #increase score
+        # Increase score
         my_score.increase_score()
+
+        # Overwrite best score
+        try:
+            if my_score.score > best_score():
+                with open("best_score.txt", mode="w") as file:
+                    file.write(f"{my_score.score}")
+        except FileNotFoundError:
+            with open("best_score.txt", mode="w") as file:
+                file.write(f"{my_score.score}")
+
 
     # Death - Game over
     # Collision with wall

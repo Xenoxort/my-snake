@@ -4,7 +4,7 @@ FONT = ("Arial", 14, "normal")
 
 class Score:
     def __init__(self, height):
-        self.score = 0
+        self.score = -1
         self.tim = Turtle()
         self.tim.hideturtle()
         self.tim.color("white")
@@ -16,8 +16,9 @@ class Score:
 
     def increase_score(self):
         self.tim.clear()
-        self.tim.write(f"Score: {self.score}", align=ALIGNMENT, font=FONT)
         self.score += 1
+        self.tim.write(f"Score: {self.score}", align=ALIGNMENT, font=FONT)
+
 
 
 
