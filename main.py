@@ -3,17 +3,20 @@ import time
 import turtle as t
 from turtle import Turtle, Screen
 from food import Food
+from score import Score
+from game_over import GameOver
 
 # Setup
+width = 600
+height = 600
+
 screen = Screen()
-screen.setup(width=600, height=600)
+screen.setup(width=width, height=height)
 screen.title("My Snake Game")
 screen.bgcolor("black")
 
 # Initializing the snake
 screen.tracer(0)
-
-
 
 snake_list = []
 y_cor = 0
@@ -49,6 +52,9 @@ def left():
     if snake_list[0].heading() != 0:
         snake_list[0].setheading(180)
 
+#Initializing Score
+my_score = Score(height)
+
 
 # Snake Movement
 screen.listen()
@@ -76,6 +82,21 @@ while game_on:
 
         tom.goto(snake_list[-1].pos())
         snake_list.append(tom)
+
+        #increase score
+        my_score.increase_score()
+
+    # Death - Game over
+    # Collision with wall
+    if (snake_list[0].xcor() > (width/2 - 5) or snake_list[0].xcor() < -(width/2 - 5)) or (snake_list[0].ycor() > (height/2 - 5) or snake_list[0].ycor() < -(height/2 - 5)):
+        game = GameOver()
+        game_on = False
+
+    # Collision with tail
+    for tail in snake_list[2:]:
+        if (abs(snake_list[0].xcor() - tail.xcor()) < 10) and (abs(snake_list[0].ycor() - tail.ycor()) < 10):
+            game = GameOver()
+            game_on = False
 
     screen.update()
 
