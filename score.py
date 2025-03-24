@@ -1,18 +1,18 @@
+import turtle as t
 from turtle import Turtle
 ALIGNMENT = "center"
-FONT = ("Arial", 14, "normal")
+FONT = ("Courier", 14, "normal")
 
 class Score:
-    def __init__(self, height, width):
+    def __init__(self):
         # current score
-        self.score = -1
+        self.score = 0
         self.tim = Turtle()
         self.tim.hideturtle()
         self.tim.color("white")
         self.tim.penup()
-        self.tim.goto(0, height/2 - 30)
-        self.tim.pendown()
-        self.increase_score()
+        self.tim.goto(0, 270)
+        self.update_score()
 
         # best score
         self.best = self.best_score()
@@ -20,15 +20,22 @@ class Score:
         self.tom.hideturtle()
         self.tom.color("white")
         self.tom.penup()
-        self.tom.goto(-(width / 2 - 70), height / 2 - 30)
+        self.tom.goto(-210, 270)
         self.tom.pendown()
         self.tom.write(f"Best Score: {self.best}", align=ALIGNMENT, font=FONT)
 
+    def update_score(self):
+        self.tim.write(f"Score: {self.score}", align=ALIGNMENT, font=FONT)
 
     def increase_score(self):
         self.tim.clear()
         self.score += 1
-        self.tim.write(f"Score: {self.score}", align=ALIGNMENT, font=FONT)
+        self.update_score()
+
+    def game_over(self):
+        self.tim.goto(0, 0)
+        self.tim.write(f"GAME OVER", align=ALIGNMENT, font=FONT)
+        t.done()
 
     def best_score(self):
         with open("best_score.txt", mode="r") as b_file:

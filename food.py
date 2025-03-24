@@ -1,19 +1,23 @@
 import random
 from turtle import Turtle
 
-class Food:
+
+#Inherit the Turtle class and create food object
+class Food(Turtle):
     def __init__(self):
-        self.food_object = Turtle()
-        self.food_object.hideturtle()
-        self.food_object.penup()
-        self.food_object.color("blue")
+        super().__init__()
+        self.shape("circle")
+        self.shapesize(stretch_wid=0.7, stretch_len=0.7)
+        self.penup()
+        self.color("blue")
+        self.speed("fastest")
         self.new_food()
 
     def new_food(self):
         x_cor = random.randint(-250, 250)
         y_cor = random.randint(-250, 250)
-        self.food_object.goto(x_cor, y_cor)
-        self.food_object.dot(15)
+        self.goto(x_cor, y_cor)
+
 
 
 

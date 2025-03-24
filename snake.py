@@ -1,7 +1,5 @@
 import time
 from turtle import Turtle, Screen
-from game_over import GameOver
-from food import Food
 from score import Score
 
 Y_COR = 0
@@ -9,8 +7,10 @@ X_COR = 20
 
 screen = Screen()
 
-class Snake:
+
+class Snake(Score):
     def __init__(self):
+        super().__init__()
         self.snake_list = []
         self.create_snake()
         self.head = self.snake_list[0]
@@ -46,22 +46,19 @@ class Snake:
         self.snake_list.append(tim)
 
     # Handling eating food
-    def eat_food(self, my_food, my_score):
-        if ((abs(self.head.xcor() - my_food.food_object.xcor()) < 15) and
-            (abs(self.head.ycor() - my_food.food_object.ycor()) < 15)):
+    def eat_food(self, my_food):
+        if self.head.distance(my_food) < 15:
             # Delete previous food, create new one
-            my_food.food_object.clear()
-            del my_food
-            my_food = Food()
+            my_food.new_food()
 
             # Increase snake - one more tail
             self.increase_snake()
 
             # Increase score
-            my_score.increase_score()
+            self.increase_score()
 
             # Overwrite best score even during game
-            my_score.overwrite_bestscore()
+            self.overwrite_bestscore()
 
         return my_food
 
@@ -88,14 +85,14 @@ class Snake:
         y_limit = (height / 2) - 20
         if ((self.head.xcor() > x_limit or self.head.xcor() < -x_limit) or
             (self.head.ycor() > y_limit or self.head.ycor() < -y_limit)):
-            GameOver()
+            self.game_over()
 
     # Game ends when snake hits the tail
     def hit_tail(self):
         for tail in self.snake_list[2:]:
             if ((abs(self.head.xcor() - tail.xcor()) < 10) and
                 (abs(self.head.ycor() - tail.ycor()) < 10)):
-                GameOver()
+                self.game_over()
 
             
     # Control snake

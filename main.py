@@ -2,7 +2,6 @@
 from turtle import Turtle, Screen
 from food import Food
 from score import Score
-from game_over import GameOver
 from snake import Snake
 
 # Setup
@@ -19,7 +18,7 @@ my_snake = Snake()
 my_food = Food()
 
 # Initializing Score
-my_score = Score(height, width)
+my_score = Score()
 
 game_on = True #For now this never turns to False because game ends with turtle.done()
 while game_on:
@@ -27,7 +26,7 @@ while game_on:
     my_snake.move_snake()
 
     # Eating food
-    my_food = my_snake.eat_food(my_food, my_score)
+    my_food = my_snake.eat_food(my_food)
 
     # Collision with wall
     my_snake.hit_wall(width, height)
