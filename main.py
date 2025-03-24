@@ -1,6 +1,5 @@
 # Imports
 import time
-import turtle as t
 from turtle import Turtle, Screen
 from food import Food
 from score import Score
